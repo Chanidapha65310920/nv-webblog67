@@ -1,5 +1,5 @@
 module.exports = {
-    port:8080,
+    port:8081,
     db:{
         database: process.env.DB_NAME || 'nvWebblogDb',
         user: process.env.DB_User || 'root',
