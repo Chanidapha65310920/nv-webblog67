@@ -1,80 +1,65 @@
-const {User} = require('../models')
+const {User} = require('../models');
 
 module.exports = {
-    // get all user
-    async index (req, res) {
-        try {
-            const users = await User.findAll() 
-            res.send(users)
-        } catch (err){ 
+    async index(req, res){
+        try{
+            const users = await User.findAll();
+            res.send(users);
+        } catch(err){
             res.status(500).send({
-    
-                error: 'The users information was incorrect' 
+                error: 'เกิดข้อผิดพลาดในการดึงข้อมูล user'
             })
         }
     },
-
-    // create user
-    async create (req, res) { 
+    async create(req, res){
         try {
-            const user = await User.create(req.body)
-            res.send(user.toJSON()) 
+            const user = await User.create(req.body);
+            res.send(user.toJSON());
         } catch (err) {
-            res.status(500).send({
-                error: 'Create user incorrect'
-            }) 
+            res.status(400).send({
+                error: 'มีข้อผิดพลาดในการสร้าง user'
+            })
         }
     },
-
-    // edit user, suspend, active
-    async put (req, res) { 
+    async put(req, res){
         try {
             await User.update(req.body, {
                 where: {
                     id: req.params.userId
-                } 
-            })
-            res.send(req.body) 
+                }
+            });
+            res.send(req.body);
         } catch (err) {
             res.status(500).send({
-                error: 'Update user incorrect'
-            }) 
+                error: 'มีข้อผิดพลาดในการแก้ไข user'
+            })
         }
     },
-
-
-    // delete user
-    async remove (req, res) { 
-        try {
-            const user = await User.findOne({ 
-                where: {
-                    id: req.params.userId 
-                }
-            })
-
+    async remove(req, res){
+        try{
+            const user = User.findByPk(req.params.userId);
             if(!user){
                 return res.status(403).send({
-                    error: 'The user information was incorrect' 
+                    error: 'ไม่มี user นี้ในระบบ'
                 })
             }
-            await user.destroy()
-            res.send(user) 
-        } catch (err) {
+            await user.destroy();
+            res.send(user);
+        }catch(err){
             res.status(500).send({
-                error: 'The user information was incorrect'
-            }) 
+                error: 'มีข้อผิดพลาดในการลบ user'
+            })
         }
     },
-    
-    // get user by id
-    async show (req, res) { 
-        try {
-            const user = await User.findByPk(req.params.userId)
-            res.send(user) 
-        } catch (err) {
+    async show(req, res){
+        try{
+            const user = await User.findByPk(req.params.userId);
+            res.send(user);
+        }catch(err){
             res.status(500).send({
-                error: 'The user information was incorrect'
-            }) 
+                error: 'มีข้อผิดพลาดในการดึงข้อมูล user'
+            })
         }
     }
 }
+    

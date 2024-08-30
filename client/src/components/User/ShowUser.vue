@@ -1,6 +1,6 @@
 <template> 
     <div>
-        <h1>Get User By Id</h1> 
+        <h1>Show User</h1> 
     </div>
 </template> 
 
